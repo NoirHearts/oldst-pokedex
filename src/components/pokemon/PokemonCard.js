@@ -39,9 +39,12 @@ export default class PokemonCard extends Component {
         pkTypes: '',
         imageLoading: true,
         reqErrors: false,
+        isLoading: false,
     };
 
     async componentDidMount () {
+    try {
+        this.setState({ isLoading: true });
         const {name, url} = this.props;
 
         // get index
@@ -58,19 +61,21 @@ export default class PokemonCard extends Component {
         };
         
         const pkImage = `https://assets.pokemon.com/assets/cms2/img/pokedex/full/${newIndex}.png`;
-        
-
+    
         // get types
         const pokemonDetailsResponse = await axios.get(url);
         const types = pokemonDetailsResponse.data.types.map((type) => type.type.name);
         const pkTypes = types.join(', ');
-
         this.setState({
+
             name,
             pkImage,
             pkIndex,
             pkTypes,
         });
+    } catch (error) {
+        this.setState({isLoading: false})
+    };
     }
     render() {
 
@@ -86,7 +91,7 @@ export default class PokemonCard extends Component {
                         onLoad={() => this.setState({imageLoading: false})}
                         onError={() =>  this.setState({reqErrors: true})}
                         />
-                        {this.state.reqErrors ? (<h6 className='mx-auto'><span className='badge badge-danger mt-2'>Too Many Requests</span></h6>) : null}
+                        {/* {this.state.reqErrors ? (<h6 className='mx-auto'><span className='badge badge-danger mt-2'>Too Many Requests</span></h6>) : null} */}
                         <div className='card-body'>
                         <h3 className='pokemon-name'>{this.state.name}</h3>
                         <h6 className='pokemon-name'>Type: {this.state.pkTypes}</h6>

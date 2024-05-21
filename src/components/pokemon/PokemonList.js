@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import PokemonCard from './PokemonCard';
 
+
 export default class PokemonList extends Component {
     state = {
         url: 'https://pokeapi.co/api/v2/pokemon?limit=1010&offset=0',
@@ -11,12 +12,14 @@ export default class PokemonList extends Component {
     async componentDidMount() {
         const resp = await axios.get(this.state.url);
         this.setState({pokemon: resp.data['results']})
-        // const newPokemon = resp.data.results;
+        const newPokemon = resp.data.results;
+        
     }
 
     render() {
 
         return (
+            
             <React.Fragment>
             {this.state.pokemon ? (
                 <div className='row'>
@@ -25,6 +28,7 @@ export default class PokemonList extends Component {
                     key={pokemon.name}
                     name={pokemon.name}
                     url={pokemon.url}
+                    
                     />
                 ))}
                 </div>
