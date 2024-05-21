@@ -67,7 +67,6 @@ export default class PokemonCard extends Component {
         const types = pokemonDetailsResponse.data.types.map((type) => type.type.name);
         const pkTypes = types.join(', ');
         this.setState({
-
             name,
             pkImage,
             pkIndex,
